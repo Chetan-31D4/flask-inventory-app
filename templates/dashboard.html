@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="text-center text-3xl font-bold mb-6" style="color: black;">
+  Inventory Dashboard
+</h2>
+
+<div class="flex items-center justify-center h-[80px]">
+  <form method="POST" action="/add" class="">
+  <input name="name" placeholder="Product Name"  class="border px-8 py-2 text-center" required>
+  <input name="quantity" type="number" placeholder="Quantity" class="border px-8 py-2 text-center" required>
+  <button type="submit" style="background-color: #ECFAE5;" class="btn btn-success px-8 py-2 border">Add Product</button>
+</form>
+</div>
+
+{% if products %}
+  <div class="flex items-center justify-center">
+    <table class="table table-striped table-bordered">
+    <thead>
+      <tr><th>ID</th><th>Name</th><th>Quantity</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+      {% for product in products %}
+        <tr>
+          <tr>
+  <!-- <td>{{ product.id }}</td> -->
+
+  <tr class="bg-white border-b">
+  <td class="px-4 py-2 text-center">{{ product.id }}</td>
+
+  <form method="POST" action="{{ url_for('edit_product', id=product.id) }}">
+    <td class="px-4 py-2">
+      <input name="name" value="{{ product.name }}" class="border px-2 py-1 w-full rounded" required>
+    </td>
+    <td class="px-4 py-2">
+      <input name="quantity" type="number" value="{{ product.quantity }}" class="border px-2 py-1 w-full rounded" required>
+    </td>
+    <td class="px-4 py-2 flex gap-2">
+      <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm">Update</button>
+  </form>
+
+  <form method="POST" action="{{ url_for('delete_product', id=product.id) }}">
+      <button type="submit" class="bg-red-500 hover:bg-red-700 text-white px-3 py-1 rounded text-sm">Delete</button>
+  </form>
+
+    </td>
+</tr>
+          </td>
+</tr>
+            </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
+{% else %}
+  <p class="text-center">No products in inventory. Add one above ⬆️</p>
+{% endif %}
+{% endblock %}
